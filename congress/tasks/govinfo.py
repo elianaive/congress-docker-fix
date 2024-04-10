@@ -127,7 +127,7 @@ def update_sitemap2(url, current_lastmod, how_we_got_here, options, lastmod_cach
 
     # Download, or just retrieve from cache.
     if download:
-        logging.warn("Downloading: %s" % url)
+        logging.warn("Downloading t: %s" % url)
     body = utils.download(
         url,
         cache_file,
@@ -169,6 +169,9 @@ def update_sitemap2(url, current_lastmod, how_we_got_here, options, lastmod_cach
 
         # Create a tqdm progress bar
         progress_bar = tqdm(total=total_items, desc="Downloading bills", unit="bill")
+
+        workers = int(options.get("workers", 4))
+        print(f"Using {workers} workers")
 
         # Use a ThreadPoolExecutor to download packages concurrently
         with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
@@ -367,7 +370,7 @@ def mirror_package_zipfile(collection, package_name, file_path, lastmod, lastmod
 
     # Download.
     file_url = GOVINFO_BASE_URL + "content/pkg/{}-{}.zip".format(collection, package_name)
-    logging.warn("Downloading: " + file_path)
+    logging.warn("Downloading t: " + file_path)
     data = utils.download(file_url, file_path, utils.merge(options, {
         'binary': True,
         'force': True, # decision to cache was made above
@@ -534,7 +537,7 @@ def mirror_bulkdata_file(collection, url, item_path, lastmod, options):
         return
 
     # Download.
-    logging.warn("Downloading: " + path)
+    logging.warn("Downloading t: " + path)
     data = utils.download(url, path, utils.merge(options, {
         'binary': True,
         'force': True, # decision to cache was made above

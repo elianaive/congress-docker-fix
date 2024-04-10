@@ -31,6 +31,8 @@ setuptools.setup(
         'scrapelib',
         'xmltodict',
         'packaging',
+        'tqdm',
+        'matplotlib',
     ],
     entry_points={
         'console_scripts': [
